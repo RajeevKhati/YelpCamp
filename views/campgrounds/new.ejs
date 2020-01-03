@@ -1,0 +1,33 @@
+<%- include ('../partials/header') %>
+
+<div class="container text-center">
+		<h1>Enter new Campground</h1>
+
+		<form class="form-signin" action='/campgrounds' method='POST'>
+
+			<div class="form-group row">
+				<input type='text' class="form-control" name='name' placeholder='Enter Name of the Campground' required>
+			</div>
+			<div class="form-group row">
+				<input type='number' class="form-control" name='price' placeholder='Price' min="0.01" step="0.01" required>
+			</div>
+			<div class="form-group row">
+				<input type='text' class="form-control" name='image' placeholder='Enter image URL' required>
+			</div>
+			<div class="form-group row">
+				<input type='text' class="form-control" name='description' placeholder='Description' required>
+			</div>
+			<div class="form-group row">
+				<label for="location">Location</label>
+				<input type='text' class="form-control" name='location' id="location" placeholder='Yosemite National Park, CA' required>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+		</form>
+
+		<a href="/campgrounds">Go Back</a>
+</div>
+
+
+
+<%- include ('../partials/footer') %>

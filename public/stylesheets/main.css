@@ -1,0 +1,29 @@
+body{
+    margin-top: 4.5rem;
+}
+
+.form-signin {
+	    width: 100%;
+	    max-width: 330px;
+	    padding: 15px;
+	    margin: auto;
+	}
+
+.delete-form{
+	display: inline;
+}
+
+/* Map */
+#mapid {
+    height: 400px;
+    width: 100%;
+}
+
+.card-footer{
+	background-color:#fff; 
+	border-top:none;
+}
+
+.jumbotron{
+	margin-bottom: 1rem;
+}

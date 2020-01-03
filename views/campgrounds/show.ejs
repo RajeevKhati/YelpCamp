@@ -1,0 +1,77 @@
+<%- include ('../partials/header') %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-3">
+			<p class="lead">YelpCamp</p>
+			<div class="list-group">
+				<li class="list-group-item active">Info 1</li>
+				<li class="list-group-item">Info 2</li>
+				<li class="list-group-item">Info 3</li>
+			</div>
+			<div id="mapid"></div>
+		</div>
+		<div class="col-sm-9">
+			<div class="card">
+				<img src="<%= campground.image %>" class="card-img-top" alt="Campground Image">
+				<div class="card-body">
+					<h4 class="float-right">$<%= campground.price %>/night</h4>
+					<h4 class="card-title"><a href=""><%= campground.name %></a></h4>
+					<p class="card-text"><%= campground.description %></p>
+					<p><em>Submitted By: <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em></p>
+					<%if(currentUser && currentUser.equals(campground.author.id)){%>
+						<a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">EDIT</a>
+						<form class="delete-form" action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+							<button class="btn btn-danger">DELETE</button>
+						</form>
+					<%}%>
+				</div>
+			</div>
+			<div class="card text-white bg-secondary my-3">
+				<div class="card-header">
+					<h5 class="d-inline">Comments</h5>
+					<a class="btn btn-success btn-sm float-right" href="/campgrounds/<%= campground._id %>/comments/new">
+						Add new comment
+					</a>
+				</div>
+				<div class="card-body">
+					<% campground.comments.forEach(function(comment){ %>
+						<div class="card-title">
+							<h5 class="d-inline"><%= comment.author.username %></h5>
+							<span class="float-right"><%= moment(comment.createdAt).fromNow() %></span>
+						</div>
+						<p class="card-text">
+							<%= comment.text %>
+						</p>
+						<%if(currentUser && currentUser.equals(comment.author.id)){%>
+							<a class="btn btn-sm btn-warning" href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit">EDIT</a>
+							<form class="delete-form" action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+								<button class="btn btn-sm btn-danger">DELETE</button>
+							</form>
+						<%}%>
+					<% }) %>
+				</div>
+            </div>
+            <a class="btn btn-primary" href="/campgrounds">Go Back</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var lat = <%= campground.lat %>;
+    var lng = <%= campground.lng %>;
+	var mymap = L.map('mapid').setView([lat, lng], 1);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			attribution: 'Map data &copy; Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox/streets-v11',
+			accessToken: 'pk.eyJ1IjoicmFqZWV2a2hhdGkiLCJhIjoiY2s0cDNucjB6MDk3YzNkcXZ5cWF1MXcybCJ9.Jl1mNl1ZufBNkvcxeuwIZQ'
+		}).addTo(mymap);
+
+	var marker = L.marker([lat, lng]).addTo(mymap);
+
+</script>
+
+
+<%- include ('../partials/footer') %>
